@@ -1,0 +1,6 @@
+{
+  "JWT_SECRET": "123",
+  "DB_URI": "mongodb://localhost:27017/dev_ordering_system",
+  "PORT": "4000",
+  "env": "development"
+}
