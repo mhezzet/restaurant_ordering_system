@@ -14,7 +14,7 @@ export default gql`
   }
 
   type Mutation {
-    registerLocal(email: String, password: String): registerResolver
+    registerLocal(userName: String, password: String): registerResolver
     loginMessenger(messengerUserID: ID): registerResolver
     loginLocal(email: String, password: String): registerResolver
     updateProfile(userID: ID, user: updateProfileInput): User

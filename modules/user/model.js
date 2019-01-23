@@ -26,7 +26,7 @@ const userSchema = new Schema(
       type: String,
       enum: ['MALE', 'FEMALE']
     },
-    messebgerUserID: {
+    messengerUserID: {
       type: String,
       maxlength: 100,
       required: true,
@@ -81,9 +81,9 @@ userSchema.methods.validPassword = function(password) {
 }
 
 userSchema.pre('save', async function(next) {
-  // if (this.method !== 'local') next()
-  // const salt = await bcrypt.genSalt(10)
-  // this.password = await bcrypt.hash(this.password, salt)
+  if (this.loginType !== 'LOCAL') next()
+  const salt = await bcrypt.genSalt(10)
+  this.password = await bcrypt.hash(this.password, salt)
 })
 
 export default mongoose.model('user', userSchema)

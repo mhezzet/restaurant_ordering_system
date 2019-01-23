@@ -10,6 +10,7 @@ databaseInit()
 const server = new ApolloServer({
   schema,
   mocks: true,
+  mockEntireSchema: false,
   context: ({ req }) => {
     let user
     const token = req.headers['authorization'] || null
