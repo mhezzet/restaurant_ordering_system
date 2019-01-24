@@ -1,26 +1,5 @@
 import { Schema, model } from 'mongoose'
 
-const itemSchema = new Schema({
-  name: {
-    type: String,
-    maxlength: 50,
-    trim: true,
-    required: true
-  },
-  category: {
-    type: String,
-    maxlength: 50,
-    trim: true,
-    required: true
-  },
-  prices: [pricesSchema],
-  addOns: [addOnsSchema],
-  itemPic: {
-    type: String,
-    maxlength: 1024
-  }
-})
-
 const addOnsSchema = new Schema({
   name: {
     type: String,
@@ -40,6 +19,27 @@ const pricesSchema = new Schema({
   size: {
     type: String,
     maxlength: 50
+  }
+})
+
+const itemSchema = new Schema({
+  name: {
+    type: String,
+    maxlength: 50,
+    trim: true,
+    required: true
+  },
+  category: {
+    type: String,
+    maxlength: 50,
+    trim: true,
+    required: true
+  },
+  prices: [pricesSchema],
+  addOns: [addOnsSchema],
+  itemPic: {
+    type: String,
+    maxlength: 1024
   }
 })
 

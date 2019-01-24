@@ -1,30 +1,5 @@
 import { Schema, model } from 'mongoose'
 
-const restaurantSchema = new Schema(
-  {
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true
-    },
-    cashier: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true
-    },
-    messengerBotID: {
-      type: String,
-      maxlength: 100,
-      required: true,
-      unique: true
-    },
-    workingHours: [workingHoursSchema]
-  },
-  {
-    timestamps: true
-  }
-)
-
 const workingHoursSchema = new Schema({
   day: {
     type: String,
@@ -50,6 +25,31 @@ const workingHoursSchema = new Schema({
     required: true
   }
 })
+
+const restaurantSchema = new Schema(
+  {
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true
+    },
+    cashier: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true
+    },
+    messengerBotID: {
+      type: String,
+      maxlength: 100,
+      required: true,
+      unique: true
+    },
+    workingHours: [workingHoursSchema]
+  },
+  {
+    timestamps: true
+  }
+)
 
 const Restaurant = model('restaurant', restaurantSchema)
 

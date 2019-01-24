@@ -7,7 +7,7 @@ export default class AdminDirective extends SchemaDirectiveVisitor {
     field.resolve = function(...args) {
       const [_, __, { user }] = args
 
-      if (!user || !user.roles.includes('owner'))
+      if (!user || !user.roles.includes('OWNER'))
         throw new AuthenticationError('Access denied, you are not an owner')
 
       return resolve.apply(this, args)

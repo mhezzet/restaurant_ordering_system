@@ -28,9 +28,7 @@ const userSchema = new Schema(
     },
     messengerUserID: {
       type: String,
-      maxlength: 100,
-      required: true,
-      unique: true
+      maxlength: 100
     },
     roles: [
       {
@@ -48,8 +46,7 @@ const userSchema = new Schema(
       type: String,
       trim: true,
       minlength: 4,
-      maxlength: 50,
-      unique: true
+      maxlength: 50
     },
     password: {
       type: String,

@@ -7,18 +7,22 @@ export default gql`
   directive @cashier on FIELD_DEFINITION
 
   type Query {
-    profile: User
-    user(userID: ID): User
-    users: [User!]!
-    usersByRestaurant(restaurantID: ID): [User!]!
+    profile: User @user
+    users: [User!]! @admin
+    usersByRestaurant(restaurantID: ID): [User!]! @admin
   }
 
   type Mutation {
-    registerLocal(userName: String, password: String): registerResolver
-    loginMessenger(messengerUserID: ID): registerResolver
-    loginLocal(email: String, password: String): registerResolver
-    updateProfile(userID: ID, user: updateProfileInput): User
-    deleteUser(userID: ID): User
+    registerLocal(
+      userName: String!
+      password: String!
+      role: Role!
+      restaurantID: ID
+    ): registerResolver @admin
+    loginMessenger(messengerUserID: String!): registerResolver
+    loginLocal(userName: String!, password: String!): registerResolver
+    updateProfile(userID: ID!, user: updateProfileInput!): User @user
+    deleteUser(userID: ID): User @admin
   }
 
   type registerResolver {
@@ -40,9 +44,7 @@ export default gql`
     profilePic: String
     messengerUserID: ID
     roles: [Role!]!
-    loginType: LoginType
     userName: String
-    password: String
     restaurant: Restaurant
     addresses: [Address!]!
   }

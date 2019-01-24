@@ -25,6 +25,10 @@ const addressSchema = new Schema(
     direction: {
       type: String,
       maxlength: 700
+    },
+    phone: {
+      type: String,
+      maxlength: 15
     }
   },
   {
