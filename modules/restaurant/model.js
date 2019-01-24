@@ -17,26 +17,33 @@ const workingHoursSchema = new Schema({
   startTime: {
     type: Number,
     max: 1440,
+    min: 0,
     required: true
   },
   endTime: {
     type: Number,
     max: 1440,
+    min: 0,
     required: true
   }
 })
 
 const restaurantSchema = new Schema(
   {
+    title: {
+      type: String,
+      trim: true,
+      required: true,
+      maxlength: 50,
+      minlength: 3
+    },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true
+      ref: 'user'
     },
     cashier: {
       type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true
+      ref: 'user'
     },
     messengerBotID: {
       type: String,

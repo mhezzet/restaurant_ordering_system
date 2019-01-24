@@ -2,20 +2,22 @@ import { gql } from 'apollo-server'
 
 export default gql`
   extend type Query {
-    restaurant(restaurantID: ID): Restaurant
-    restaurants: [Restaurant]
+    restaurant(restaurantID: ID!): Restaurant @admin
+    restaurants: [Restaurant!]! @admin
   }
 
   extend type Mutation {
-    addRestaurant(restaurant: restaurantInput): Restaurant
-    updateRestaurant(restaurantID: ID, restaurant: restaurantInput): Restaurant
-    deleteRestaurant(restaurantID: ID): Restaurant
+    addRestaurant(restaurant: restaurantInput!): Restaurant @admin
+    updateRestaurant(
+      restaurantID: ID!
+      restaurant: restaurantInput!
+    ): Restaurant @admin
+    deleteRestaurant(restaurantID: ID): Restaurant @admin
   }
 
   input restaurantInput {
-    cashier: ID
-    owner: ID
-    messengerBotID: ID
+    title: String!
+    messengerBotID: ID!
     workingHours: [dailyScheduleInput]
   }
 
@@ -27,6 +29,7 @@ export default gql`
 
   type Restaurant {
     id: ID
+    title: String
     cashier: User
     owner: User
     messengerBotID: ID
