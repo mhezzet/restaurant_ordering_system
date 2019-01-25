@@ -46,7 +46,6 @@ export default gql`
     roles: [Role!]!
     userName: String
     restaurant: Restaurant
-    addresses: [Address!]!
   }
 
   enum Gender {

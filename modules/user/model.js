@@ -56,13 +56,7 @@ const userSchema = new Schema(
     restaurant: {
       type: Schema.Types.ObjectId,
       ref: 'restaurant'
-    },
-    addresses: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'address'
-      }
-    ]
+    }
   },
   {
     timestamps: true

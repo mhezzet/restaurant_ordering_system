@@ -52,7 +52,7 @@ async function registerLocal(_, args, { models: { User, Restaurant } }) {
     loginType: 'LOCAL'
   })
 
-  await User.populate(user, 'addresses restaurant')
+  await User.populate(user, 'restaurant')
   const token = user.genToken()
 
   return { token, user }
@@ -122,7 +122,7 @@ async function updateProfile(
     { _id: args.userID },
     { ...args.user },
     { new: true }
-  )
+  ).populate('restaurant')
 
   return user
 }
@@ -151,7 +151,7 @@ async function deleteUser(_, args, { models: { User } }) {
 async function profile(_, __, { models: { User }, user: requestedUser }) {
   console.log(requestedUser)
   const user = await User.findOne({ _id: requestedUser.id }).populate(
-    'restaurant addresses'
+    'restaurant'
   )
 
   return user
@@ -164,7 +164,7 @@ async function profile(_, __, { models: { User }, user: requestedUser }) {
 */
 
 async function users(_, __, { models: { User } }) {
-  const users = await User.find({}).populate('addresses restaurant')
+  const users = await User.find({}).populate('restaurant')
 
   return users
 }
@@ -181,7 +181,7 @@ async function usersByRestaurant(_, args, { models: { User } }) {
 
   const users = await User.find({
     restaurant: args.restaurantID
-  }).populate('restaurant addresses')
+  }).populate('restaurant')
 
   return users
 }
