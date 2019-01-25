@@ -35,11 +35,20 @@ const itemSchema = new Schema({
     trim: true,
     required: true
   },
+  description: {
+    type: String,
+    max: 300
+  },
   prices: [pricesSchema],
   addOns: [addOnsSchema],
   itemPic: {
     type: String,
     maxlength: 1024
+  },
+  restaurant: {
+    type: Schema.Types.ObjectId,
+    ref: 'restaurant',
+    required: true
   }
 })
 

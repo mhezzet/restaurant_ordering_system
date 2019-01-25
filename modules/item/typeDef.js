@@ -6,15 +6,17 @@ export default gql`
   }
 
   extend type Mutation {
-    addItem(item: itemInput): Item
+    addItem(item: itemInput!, restaurantID: ID!): Item @owner
+    removeItem(itemID: ID!): item @owner
   }
 
   input itemInput {
-    name: String
+    name: String!
     description: String
-    category: String
+    category: String!
     prices: [priceInput!]!
     addOns: [addOnsInput!]!
+    itemPic: String
   }
 
   input priceInput {
@@ -29,12 +31,13 @@ export default gql`
 
   type Item {
     id: ID!
-    name: String
+    name: String!
     prices: [Price!]!
     description: String
     addOns: [addOn]!
-    category: String
+    category: String!
     itemPic: String
+    restaurant: Restaurant
   }
 
   type addOn {
