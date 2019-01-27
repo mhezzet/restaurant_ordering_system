@@ -16,7 +16,7 @@ const pricesSchema = new Schema({
     type: Number,
     min: 0
   },
-  size: {
+  variant: {
     type: String,
     maxlength: 50
   }

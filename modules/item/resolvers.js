@@ -13,6 +13,7 @@ async function addItem(_, args, { models: { Item } }) {
     ...args.item,
     restaurant: args.restaurantID
   })
+  await Item.populate(item, 'restaurant')
   return item
 }
 

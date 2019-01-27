@@ -68,16 +68,12 @@ async function updateAddress(
   args,
   { models: { Address }, user: requestedUser }
 ) {
-  const { error } = updateAddressValidator(args.address)
+  const { error } = updateAddressValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
-  const address = await findOneAndUpdate(
+  const address = await Address.findOneAndUpdate(
     { _id: args.addressID, user: requestedUser.id },
-    {
-      $set: {
-        ...args.address
-      }
-    },
+    { $set: { ...args.address } },
     { new: true }
   )
   if (!address) throw new UserInputError('no such an address')

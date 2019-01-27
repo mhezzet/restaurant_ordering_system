@@ -34,6 +34,10 @@ const addressSchema = new Schema(
     phone: {
       type: String,
       maxlength: 15
+    },
+    title: {
+      type: String,
+      maxlength: 50
     }
   },
   {

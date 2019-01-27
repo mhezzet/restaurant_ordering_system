@@ -2,7 +2,7 @@ import { gql } from 'apollo-server'
 
 export default gql`
   extend type Query {
-    item(itemID: ID): Item
+    item(itemID: ID!): Item
   }
 
   extend type Mutation {
@@ -20,13 +20,13 @@ export default gql`
   }
 
   input priceInput {
-    name: String
+    variant: String
     price: Float
   }
 
   input addOnsInput {
     name: String
-    price: String
+    price: Float
   }
 
   type Item {
@@ -47,6 +47,6 @@ export default gql`
 
   type Price {
     price: Float
-    size: String
+    variant: String
   }
 `
