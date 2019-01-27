@@ -7,18 +7,18 @@ export default gql`
   }
 
   type Subscription {
-    addedOrder: Order
+    addedOrder(restaurantID: ID!): Order
   }
 
   extend type Mutation {
-    makeOrder(order: orderInput): Order
-    updateOrder(state: State): Order
+    makeOrder(order: orderInput): Order @user
+    updateOrderState(orderID: ID!, state: State!): Order
   }
 
   input orderInput {
-    inventory: [ID!]!
-    resturant: ID
-    user: ID
+    inventory: ID!
+    resturant: ID!
+    user: ID!
   }
 
   type Order {

@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer, PubSub } from 'apollo-server'
 import JWT from 'jsonwebtoken'
 import config from 'config'
 import { schema, models } from './modules'
@@ -7,6 +7,7 @@ import databaseInit from './utils/database'
 
 databaseInit()
 
+const pubsub = new PubSub()
 const server = new ApolloServer({
   schema,
   context: ({ req }) => {
@@ -17,7 +18,7 @@ const server = new ApolloServer({
     } catch {
       user = null
     }
-    return { models, user }
+    return { models, user, pubsub }
   },
   formatError: error => {
     if (

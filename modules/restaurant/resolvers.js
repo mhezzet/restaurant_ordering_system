@@ -2,7 +2,9 @@ import {
   restaurantValidator,
   addRestaurantValidator,
   updateRestaurantValidator,
-  deleteRestaurantValidator
+  deleteRestaurantValidator,
+  addOwnerValidator,
+  addCashierValidator
 } from './validators'
 import { UserInputError } from 'apollo-server'
 
@@ -96,6 +98,55 @@ async function deleteRestaurant(_, args, { models: { Restaurant } }) {
   return restaurant
 }
 
+/**
+|--------------------------------------------------
+| Add Owner
+|--------------------------------------------------
+*/
+async function addOwner(_, args, { models: { User } }) {
+  const { error } = addOwnerValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  let user = await User.findOne({ userName: args.userName })
+  if (user) throw new UserInputError('user name is already exist')
+
+  user = await User.create({
+    ...args,
+    roles: ['OWNER', 'CASHIER'],
+    loginType: 'LOCAL',
+    restaurant: args.restaurantID
+  })
+
+  await User.populate(user, 'restaurant')
+
+  const token = user.genToken()
+  return { user, token }
+}
+/**
+|--------------------------------------------------
+| Add Cahsier
+|--------------------------------------------------
+*/
+async function addCashier(_, args, { models: { User } }) {
+  const { error } = addCashierValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  let user = await User.findOne({ userName: args.userName })
+  if (user) throw new UserInputError('user name is already exist')
+
+  user = await User.create({
+    ...args,
+    roles: ['CASHIER'],
+    loginType: 'LOCAL',
+    restaurant: args.restaurantID
+  })
+
+  await User.populate(user, 'restaurant')
+  const token = user.genToken()
+
+  return { user, token }
+}
+
 export default {
   Query: {
     restaurant,
@@ -104,6 +155,8 @@ export default {
   Mutation: {
     addRestaurant,
     updateRestaurant,
-    deleteRestaurant
+    deleteRestaurant,
+    addOwner,
+    addCashier
   }
 }

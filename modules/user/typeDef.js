@@ -9,17 +9,12 @@ export default gql`
   type Query {
     profile: User @user
     users: [User!]! @admin
-    usersByRestaurant(restaurantID: ID): [User!]! @admin
+    usersByRestaurant(restaurantID: ID!): [User!]! @admin
   }
 
   type Mutation {
-    registerLocal(
-      userName: String!
-      password: String!
-      role: Role!
-      restaurantID: ID
-    ): registerResolver @admin
-    loginMessenger(messengerUserID: String!): registerResolver
+    addAdmin(userName: String!, password: String!): registerResolver @admin
+    loginMessenger(messengerUserID: ID!): registerResolver
     loginLocal(userName: String!, password: String!): registerResolver
     updateProfile(userID: ID!, user: updateProfileInput!): User @user
     deleteUser(userID: ID): User @admin

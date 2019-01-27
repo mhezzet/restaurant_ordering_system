@@ -14,15 +14,18 @@ const orderSchema = new Schema(
     },
     inventory: {
       type: Schema.Types.ObjectId,
-      ref: 'inventory'
+      ref: 'inventory',
+      required: true
     },
     restaurant: {
       type: Schema.Types.ObjectId,
-      ref: 'restaurant'
+      ref: 'restaurant',
+      required: true
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'user',
+      required: true
     }
   },
   {

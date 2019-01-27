@@ -13,6 +13,16 @@ export default gql`
       restaurant: restaurantInput!
     ): Restaurant @admin
     deleteRestaurant(restaurantID: ID): Restaurant @admin
+    addOwner(
+      userName: String!
+      password: String!
+      restaurantID: ID
+    ): registerResolver @admin
+    addCashier(
+      userName: String!
+      password: String!
+      restaurantID: ID
+    ): registerResolver @admin
   }
 
   input restaurantInput {

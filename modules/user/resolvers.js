@@ -1,44 +1,23 @@
 import {
-  registerLocalValidtator,
   loginMessengerValidtator,
   loginLocalValidtator,
   updateProfileValidator,
   deleteUserValidator,
-  usersByRestaurantValidtator
+  usersByRestaurantValidtator,
+  addAdminValidtator
 } from './validators'
 import { UserInputError } from 'apollo-server'
 
 /**
 |--------------------------------------------------
-| Register Local
+| Add Admin 
 |--------------------------------------------------
 */
-async function registerLocal(_, args, { models: { User, Restaurant } }) {
-  const { userName, role } = args
-
-  const { error } = registerLocalValidtator(args)
+async function addAdmin(_, args, { models: { User, Restaurant } }) {
+  const { error } = addAdminValidtator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
-  let roles
-  switch (role) {
-    case 'ADMIN':
-      roles = ['CASHIER', 'USER', 'ADMIN', 'OWNER']
-      break
-    case 'OWNER':
-      roles = ['CASHIER', 'OWNER']
-      break
-    case 'CASHIER':
-      roles = 'CASHIER'
-      break
-    case 'USER':
-      roles = 'USER'
-      break
-    default:
-      roles = 'USER'
-      break
-  }
-
-  let user = await User.findOne({ userName })
+  let user = await User.findOne({ userName: args.userName })
   if (user) throw new UserInputError('user name is already exist')
 
   if (args.restaurantID) {
@@ -48,13 +27,11 @@ async function registerLocal(_, args, { models: { User, Restaurant } }) {
 
   user = await User.create({
     ...args,
-    roles,
+    roles: ['ADMIN', 'USER', 'CASHIER', 'OWNER'],
     loginType: 'LOCAL'
   })
 
-  await User.populate(user, 'restaurant')
   const token = user.genToken()
-
   return { token, user }
 }
 
@@ -91,7 +68,9 @@ async function loginLocal(_, args, { models: { User } }) {
   const { error } = loginLocalValidtator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
-  const user = await User.findOne({ userName: args.userName })
+  const user = await User.findOne({ userName: args.userName }).populate(
+    'restaurant'
+  )
   if (!user) throw new UserInputError('invalid username or password')
 
   const validPassword = await user.validPassword(args.password)
@@ -149,7 +128,6 @@ async function deleteUser(_, args, { models: { User } }) {
 |--------------------------------------------------
 */
 async function profile(_, __, { models: { User }, user: requestedUser }) {
-  console.log(requestedUser)
   const user = await User.findOne({ _id: requestedUser.id }).populate(
     'restaurant'
   )
@@ -188,7 +166,7 @@ async function usersByRestaurant(_, args, { models: { User } }) {
 
 export default {
   Mutation: {
-    registerLocal,
+    addAdmin,
     loginMessenger,
     loginLocal,
     updateProfile,

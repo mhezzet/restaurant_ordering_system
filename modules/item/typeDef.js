@@ -7,7 +7,7 @@ export default gql`
 
   extend type Mutation {
     addItem(item: itemInput!, restaurantID: ID!): Item @owner
-    removeItem(itemID: ID!): item @owner
+    removeItem(itemID: ID!): Item @owner
   }
 
   input itemInput {

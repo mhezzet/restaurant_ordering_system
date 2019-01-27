@@ -14,6 +14,14 @@ const startTime = Joi.number()
 const endTime = Joi.number()
   .max(1440)
   .min(0)
+const userName = Joi.string()
+  .max(50)
+  .min(4)
+  .required()
+const password = Joi.string()
+  .max(1024)
+  .min(4)
+  .required()
 
 export const restaurantValidator = input => {
   const schema = Joi.object({ restaurantID: Joi.objectId() })
@@ -44,5 +52,23 @@ export const updateRestaurantValidator = input => {
 
 export const deleteRestaurantValidator = input => {
   const schema = Joi.object({ restaurantID: Joi.objectId() })
+  return schema.validate(input)
+}
+
+export const addOwnerValidator = input => {
+  const schema = Joi.object({
+    restaurantID: Joi.objectId(),
+    userName,
+    password
+  })
+  return schema.validate(input)
+}
+
+export const addCashierValidator = input => {
+  const schema = Joi.object({
+    restaurantID: Joi.objectId(),
+    userName,
+    password
+  })
   return schema.validate(input)
 }

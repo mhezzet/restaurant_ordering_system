@@ -8,7 +8,6 @@ const userName = Joi.string()
     .max(1024)
     .min(4)
     .required(),
-  role = Joi.string().required(),
   messengerUserID = Joi.string()
     .max(100)
     .required(),
@@ -22,12 +21,10 @@ const userName = Joi.string()
     .min(4)
     .max(1024)
 
-export const registerLocalValidtator = input => {
+export const addAdminValidtator = input => {
   const schema = Joi.object({
     userName,
-    password,
-    role,
-    restaurantID: Joi.objectId()
+    password
   })
 
   return schema.validate(input)
