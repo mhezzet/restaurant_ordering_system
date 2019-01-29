@@ -29,6 +29,13 @@ export default gql`
     title: String!
     messengerBotID: ID!
     workingHours: [dailyScheduleInput]
+    redemptionItems: [redemptionItemInput]
+    deleveryFees: Float
+  }
+
+  input redemptionItemInput {
+    itemName: String
+    costPoints: Int
   }
 
   input dailyScheduleInput {
@@ -44,12 +51,20 @@ export default gql`
     owner: User
     messengerBotID: ID
     workingHours: [dailySchedule]
+    redemptionItems: [redemptionItem]
+    deleveryFees: Float!
   }
 
   type dailySchedule {
     day: Day
     startTime: Int
     endTime: Int
+  }
+
+  type redemptionItem {
+    id: ID
+    itemName: String
+    costPoints: Int
   }
 
   enum Day {

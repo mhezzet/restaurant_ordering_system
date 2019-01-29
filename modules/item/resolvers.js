@@ -1,7 +1,8 @@
 import {
   removeItemValidator,
   addItemValidator,
-  itemValidator
+  itemValidator,
+  itemsByRestaurantValidator
 } from './validator'
 import { UserInputError } from 'apollo-server'
 
@@ -39,12 +40,23 @@ async function item(_, args, { models: { Item } }) {
   return item
 }
 
+async function itemsByRestaurant(_, args, { models: { Item } }) {
+  const { error } = itemsByRestaurantValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const items = await Item.find({ restaurant: args.restaurantID }).populate(
+    'restaurant'
+  )
+  return items
+}
+
 export default {
   Mutation: {
     addItem,
     removeItem
   },
   Query: {
-    item
+    item,
+    itemsByRestaurant
   }
 }

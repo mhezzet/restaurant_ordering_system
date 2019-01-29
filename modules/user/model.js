@@ -56,6 +56,11 @@ const userSchema = new Schema(
     restaurant: {
       type: Schema.Types.ObjectId,
       ref: 'restaurant'
+    },
+    loyaltyPoints: {
+      type: Number,
+      min: 0,
+      default: 200
     }
   },
   {

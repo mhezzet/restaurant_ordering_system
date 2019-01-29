@@ -19,7 +19,8 @@ const userName = Joi.string()
     .max(50),
   profilePic = Joi.string()
     .min(4)
-    .max(1024)
+    .max(1024),
+  gender = Joi.string()
 
 export const addAdminValidtator = input => {
   const schema = Joi.object({
@@ -50,7 +51,9 @@ export const updateProfileValidator = input => {
     user: Joi.object({
       firstName,
       lastName,
-      profilePic
+      profilePic,
+      gender,
+      restaurant: Joi.objectId()
     })
   })
 

@@ -7,12 +7,13 @@ import databaseInit from './utils/database'
 
 databaseInit()
 
-const pubsub = new PubSub()
+export const pubsub = new PubSub()
 const server = new ApolloServer({
   schema,
-  context: ({ req }) => {
+  context: ({ req, connection }) => {
+    if (connection) return connection.context
     let user
-    const token = req.headers['authorization'] || null
+    const token = req.headers.authorization || ''
     try {
       user = JWT.verify(token, config.get('JWT_SECRET'))
     } catch {

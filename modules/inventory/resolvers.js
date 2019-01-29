@@ -13,9 +13,7 @@ async function inventory(_, args, { models: { Inventory } }) {
   const { error } = inventoryValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
-  const inventory = await Inventory.findOne({ _id: args.inventoryID }).populate(
-    'items'
-  )
+  const inventory = await Inventory.findOne({ _id: args.inventoryID })
   return inventory
 }
 

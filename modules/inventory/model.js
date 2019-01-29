@@ -1,12 +1,32 @@
 import { Schema, model } from 'mongoose'
 
+const addOnsSchema = new Schema({
+  name: {
+    type: String,
+    maxlength: 50
+  },
+  price: {
+    type: Number,
+    min: 0
+  }
+})
+
+const itemSchema = new Schema({
+  name: {
+    type: String,
+    maxlength: 50,
+    trim: true,
+    required: true
+  },
+  price: {
+    type: Number,
+    min: 0
+  },
+  addOns: [addOnsSchema]
+})
+
 const inventorySchema = new Schema({
-  items: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'item'
-    }
-  ],
+  items: [itemSchema],
   comment: {
     type: String,
     maxlength: 500

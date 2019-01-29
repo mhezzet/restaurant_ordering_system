@@ -28,6 +28,17 @@ const workingHoursSchema = new Schema({
   }
 })
 
+const redemptionItemSchema = new Schema({
+  itemName: {
+    type: String,
+    maxlength: 50
+  },
+  costPoints: {
+    type: Number,
+    min: 0
+  }
+})
+
 const restaurantSchema = new Schema(
   {
     title: {
@@ -51,7 +62,13 @@ const restaurantSchema = new Schema(
       required: true,
       unique: true
     },
-    workingHours: [workingHoursSchema]
+    redemptionItems: [redemptionItemSchema],
+    workingHours: [workingHoursSchema],
+    deleveryFees: {
+      type: Number,
+      min: 0,
+      required: true
+    }
   },
   {
     timestamps: true

@@ -11,6 +11,7 @@ const title = Joi.string()
 const startTime = Joi.number()
   .max(1440)
   .min(0)
+const deleveryFees = Joi.number().min(0)
 const endTime = Joi.number()
   .max(1440)
   .min(0)
@@ -23,6 +24,9 @@ const password = Joi.string()
   .min(4)
   .required()
 
+const itemName = Joi.string().max(50)
+const costPoints = Joi.number().min(0)
+
 export const restaurantValidator = input => {
   const schema = Joi.object({ restaurantID: Joi.objectId() })
   return schema.validate(input)
@@ -32,6 +36,8 @@ export const addRestaurantValidator = input => {
   const schema = Joi.object({
     messengerBotID,
     title,
+    deleveryFees,
+    redemptionItems: Joi.array().items({ itemName, costPoints }),
     workingHours: Joi.array().items({ day, endTime, startTime })
   })
   return schema.validate(input)
@@ -43,6 +49,8 @@ export const updateRestaurantValidator = input => {
     restaurant: Joi.object({
       messengerBotID,
       title,
+      deleveryFees,
+      redemptionItems: Joi.array().items({ itemName, costPoints }),
       workingHours: Joi.array().items({ day, endTime, startTime })
     })
   })

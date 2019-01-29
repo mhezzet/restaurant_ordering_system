@@ -29,6 +29,8 @@ export default gql`
     firstName: String
     lastName: String
     profilePic: String
+    restaurant: ID
+    gender: Gender
   }
 
   type User {
@@ -40,6 +42,7 @@ export default gql`
     messengerUserID: ID
     roles: [Role!]!
     userName: String
+    loyaltyPoints: Float
     restaurant: Restaurant
   }
 

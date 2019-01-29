@@ -6,12 +6,24 @@ export default gql`
   }
 
   extend type Mutation {
-    createInventory(items: [ID!]!, comment: String): Inventory @user
+    createInventory(items: [itemsCartInput]!, comment: String): Inventory @user
+  }
+
+  input itemsCartInput {
+    name: String!
+    price: Float!
+    addOns: [addOnsInput]
   }
 
   type Inventory {
     id: ID
-    items: [Item]
+    items: [ItemCart]
     comment: String
+  }
+
+  type ItemCart {
+    name: String!
+    price: Float!
+    addOns: [addOn]
   }
 `

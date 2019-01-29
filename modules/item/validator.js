@@ -45,3 +45,9 @@ export const itemValidator = input => {
 
   return schema.validate(input)
 }
+
+export const itemsByRestaurantValidator = input => {
+  const schema = Joi.object({ restaurantID: Joi.objectId() })
+
+  return schema.validate(input)
+}

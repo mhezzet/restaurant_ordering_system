@@ -3,6 +3,7 @@ import { gql } from 'apollo-server'
 export default gql`
   extend type Query {
     item(itemID: ID!): Item
+    itemsByRestaurant(restaurantID: ID!): [Item] @user
   }
 
   extend type Mutation {

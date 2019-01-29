@@ -4,10 +4,15 @@ const orderSchema = new Schema(
   {
     state: {
       type: String,
-      enum: ['OUT_FOR_DELEVERY', 'COMPLETED', 'DELEVERED', 'DECLINED'],
+      enum: ['OUT_FOR_DELEVERY', 'COMPLETED', 'DECLINED', 'NO_ACTION'],
       required: true
     },
     totalPrice: {
+      type: Number,
+      min: 0,
+      required: true
+    },
+    orderPrice: {
       type: Number,
       min: 0,
       required: true
@@ -26,7 +31,22 @@ const orderSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true
-    }
+    },
+    address: {
+      type: Schema.Types.ObjectId,
+      ref: 'address',
+      required: true
+    },
+    redemptionItem: new Schema({
+      itemName: {
+        type: String,
+        maxlength: 50
+      },
+      costPoints: {
+        type: Number,
+        min: 0
+      }
+    })
   },
   {
     timestamps: true
