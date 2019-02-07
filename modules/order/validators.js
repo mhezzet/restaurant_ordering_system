@@ -20,13 +20,11 @@ export const ordersByRestaurantValidator = input => {
 
 export const makeOrderValidator = input => {
   const schema = Joi.object({
-    order: Joi.object({
-      inventory: Joi.objectId(),
-      restaurant: Joi.objectId(),
-      user: Joi.objectId(),
-      address: Joi.objectId(),
-      redemptionItem: Joi.objectId()
-    })
+    inventory: Joi.objectId(),
+    restaurant: Joi.objectId(),
+    user: Joi.objectId(),
+    address: Joi.objectId(),
+    redemptionItem: Joi.objectId()
   })
   return schema.validate(input)
 }

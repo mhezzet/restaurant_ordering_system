@@ -10,6 +10,7 @@ export const createInventoryValidator = input => {
       name,
       price,
       addOns: Joi.array().items({
+        id: Joi.objectId(),
         name,
         price
       })

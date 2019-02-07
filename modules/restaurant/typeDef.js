@@ -17,31 +17,34 @@ export default gql`
       userName: String!
       password: String!
       restaurantID: ID
-    ): registerResolver @admin
+    ): Restaurant @admin
     addCashier(
       userName: String!
       password: String!
       restaurantID: ID
-    ): registerResolver @admin
+    ): Restaurant @admin
+    addredemptionItem(
+      restaurantID: ID!
+      redemptionItem: redemptionItemInput!
+    ): Restaurant @owner
+    removeRedemptionItem(
+      redemptionItemID: ID!
+      restaurantID: ID!
+      redemptionItem: redemptionItemInput
+    ): Restaurant @owner
   }
 
   input restaurantInput {
     title: String!
     messengerBotID: ID!
-    workingHours: [dailyScheduleInput]
-    redemptionItems: [redemptionItemInput]
     deleveryFees: Float
+    startTime: Int
+    endTime: Int
   }
 
   input redemptionItemInput {
     itemName: String
     costPoints: Int
-  }
-
-  input dailyScheduleInput {
-    day: Day
-    startTime: Int
-    endTime: Int
   }
 
   type Restaurant {
@@ -50,13 +53,8 @@ export default gql`
     cashier: User
     owner: User
     messengerBotID: ID
-    workingHours: [dailySchedule]
     redemptionItems: [redemptionItem]
-    deleveryFees: Float!
-  }
-
-  type dailySchedule {
-    day: Day
+    deleveryFees: Float
     startTime: Int
     endTime: Int
   }
@@ -65,15 +63,5 @@ export default gql`
     id: ID
     itemName: String
     costPoints: Int
-  }
-
-  enum Day {
-    Friday
-    Monday
-    Saturday
-    Sunday
-    Thursday
-    Tuesday
-    Wednesday
   }
 `

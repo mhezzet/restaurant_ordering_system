@@ -37,8 +37,8 @@ export const addRestaurantValidator = input => {
     messengerBotID,
     title,
     deleveryFees,
-    redemptionItems: Joi.array().items({ itemName, costPoints }),
-    workingHours: Joi.array().items({ day, endTime, startTime })
+    startTime,
+    endTime
   })
   return schema.validate(input)
 }
@@ -50,8 +50,8 @@ export const updateRestaurantValidator = input => {
       messengerBotID,
       title,
       deleveryFees,
-      redemptionItems: Joi.array().items({ itemName, costPoints }),
-      workingHours: Joi.array().items({ day, endTime, startTime })
+      startTime,
+      endTime
     })
   })
 

@@ -1,33 +1,5 @@
 import { Schema, model } from 'mongoose'
 
-const workingHoursSchema = new Schema({
-  day: {
-    type: String,
-    enum: [
-      'Friday',
-      'Monday',
-      'Saturday',
-      'Sunday',
-      'Thursday',
-      'Tuesday',
-      'Wednesday'
-    ],
-    required: true
-  },
-  startTime: {
-    type: Number,
-    max: 1440,
-    min: 0,
-    required: true
-  },
-  endTime: {
-    type: Number,
-    max: 1440,
-    min: 0,
-    required: true
-  }
-})
-
 const redemptionItemSchema = new Schema({
   itemName: {
     type: String,
@@ -63,9 +35,20 @@ const restaurantSchema = new Schema(
       unique: true
     },
     redemptionItems: [redemptionItemSchema],
-    workingHours: [workingHoursSchema],
     deleveryFees: {
       type: Number,
+      min: 0,
+      required: true
+    },
+    startTime: {
+      type: Number,
+      max: 1440,
+      min: 0,
+      required: true
+    },
+    endTime: {
+      type: Number,
+      max: 1440,
       min: 0,
       required: true
     }

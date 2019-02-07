@@ -2,7 +2,9 @@ import {
   removeItemValidator,
   addItemValidator,
   itemValidator,
-  itemsByRestaurantValidator
+  itemsByRestaurantValidator,
+  addPriceValidator,
+  addOnValidator
 } from './validator'
 import { UserInputError } from 'apollo-server'
 
@@ -50,10 +52,41 @@ async function itemsByRestaurant(_, args, { models: { Item } }) {
   return items
 }
 
+async function addPrice(_, args, { models: { Item } }) {
+  const { error } = addPriceValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const item = await Item.findOneAndUpdate(
+    { _id: args.itemID },
+    { $push: { prices: args.price } },
+    { new: true }
+  ).populate('restaurant')
+
+  if (!item) throw new UserInputError('no such an item')
+
+  return item
+}
+
+async function addAddOn(_, args, { models: { Item } }) {
+  const { error } = addOnValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const item = await Item.findOneAndUpdate(
+    { _id: args.itemID },
+    { $push: { addOns: args.addOn } },
+    { new: true }
+  ).populate('restaurant')
+  if (!item) throw new UserInputError('no such an item')
+
+  return item
+}
+
 export default {
   Mutation: {
     addItem,
-    removeItem
+    removeItem,
+    addPrice,
+    addAddOn
   },
   Query: {
     item,

@@ -3,20 +3,20 @@ import { gql } from 'apollo-server'
 export default gql`
   extend type Query {
     item(itemID: ID!): Item
-    itemsByRestaurant(restaurantID: ID!): [Item] @user
+    itemsByRestaurant(restaurantID: ID!): [Item]
   }
 
   extend type Mutation {
-    addItem(item: itemInput!, restaurantID: ID!): Item @owner
+    addItem(item: itemInput, restaurantID: ID!): Item @owner
     removeItem(itemID: ID!): Item @owner
+    addPrice(itemID: ID!, price: priceInput): Item @owner
+    addAddOn(itemID: ID!, addOn: addOnsInput): Item @owner
   }
 
   input itemInput {
     name: String!
     description: String
     category: String!
-    prices: [priceInput!]!
-    addOns: [addOnsInput!]!
     itemPic: String
   }
 
@@ -26,6 +26,7 @@ export default gql`
   }
 
   input addOnsInput {
+    id: ID
     name: String
     price: Float
   }
@@ -42,11 +43,13 @@ export default gql`
   }
 
   type addOn {
+    id: ID
     name: String
     price: Float
   }
 
   type Price {
+    id: ID
     price: Float
     variant: String
   }

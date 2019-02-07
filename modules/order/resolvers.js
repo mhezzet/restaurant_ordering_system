@@ -36,8 +36,11 @@ async function ordersByRestaurant(_, args, { models: { Order } }) {
   if (error) throw new UserInputError(error.details[0].message)
 
   const restaurants = await Order.find({
-    restaurant: args.restaurantID
-  }).populate('restaurant user inventory address')
+    restaurant: args.restaurantID,
+    state: { $ne: 'COMPLETED' }
+  })
+    .sort({ createdAt: -1 })
+    .populate('restaurant user inventory address')
 
   return restaurants
 }
@@ -59,24 +62,25 @@ async function makeOrder(
   const { error } = makeOrderValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
-  const address = await Address.findOne({ _id: args.order.address })
+  const address = await Address.findOne({ _id: args.address })
   if (!address) throw new UserInputError('error, in valid Address')
 
-  const inventory = await Inventory.findOne({ _id: args.order.inventory })
+  const inventory = await Inventory.findOne({ _id: args.inventory })
   if (!inventory) throw new UserInputError('error, in valid inventory')
 
-  const user = await User.findOne({ _id: args.order.user })
+  const user = await User.findOne({ _id: args.user })
   if (!user) throw new UserInputError('error, in valid user')
 
-  const restaurant = await Restaurant.findOne({ _id: args.order.restaurant })
+  const restaurant = await Restaurant.findOne({ _id: args.restaurant })
   if (!restaurant) throw new UserInputError('error, in valid restaurant')
 
   if (user._id != requestedUser.id)
     throw new AuthenticationError('u r not authorized')
 
   const redemptionItem = restaurant.redemptionItems.find(
-    item => item._id == args.order.redemptionItem
+    item => item._id == args.redemptionItem
   )
+
   if (redemptionItem && user.loyaltyPoints - redemptionItem.costPoints < 0)
     throw new UserInputError(
       'invalid redemtion item or not enough loyality points'
@@ -93,7 +97,7 @@ async function makeOrder(
   const totalPrice = price + restaurant.deleveryFees
 
   const order = await Order.create({
-    ...args.order,
+    ...args,
     orderPrice: price,
     totalPrice,
     state: 'NO_ACTION',
@@ -116,6 +120,7 @@ async function makeOrder(
 */
 
 async function updateOrderState(_, args, { models: { Order } }) {
+  //TODO:handle some sort of error here
   const { error } = updateOrderState(args)
   if (error) throw new UserInputError(error.details[0].message)
 

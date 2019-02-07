@@ -11,16 +11,14 @@ export default gql`
   }
 
   extend type Mutation {
-    makeOrder(order: orderInput!): Order @user
+    makeOrder(
+      inventory: ID!
+      restaurant: ID!
+      user: ID!
+      address: ID!
+      redemptionItem: ID
+    ): Order @user
     updateOrderState(orderID: ID!, state: State!): Order @cashier
-  }
-
-  input orderInput {
-    inventory: ID!
-    restaurant: ID!
-    user: ID!
-    address: ID!
-    redemptionItem: ID
   }
 
   type Order {
@@ -30,8 +28,14 @@ export default gql`
     orderPrice: Float
     inventory: Inventory
     restaurant: Restaurant
+    redemptionItem: RedemptionItem
     user: User
     address: Address
+  }
+
+  type RedemptionItem {
+    itemName: String
+    costPoints: Float
   }
 
   enum State {

@@ -5,9 +5,7 @@ const description = Joi.string().max(300)
 const category = Joi.string()
   .max(50)
   .required()
-const itemPic = Joi.string()
-  .max(1024)
-  .required()
+const itemPic = Joi.string().max(1024)
 const itemName = Joi.string().max(50)
 const price = Joi.number().min(0)
 const variant = Joi.string().max(50)
@@ -19,15 +17,7 @@ export const addItemValidator = input => {
       description,
       name,
       category,
-      itemPic,
-      prices: Joi.array().items({
-        variant,
-        price
-      }),
-      addOns: Joi.array().items({
-        name: itemName,
-        price
-      })
+      itemPic
     })
   })
 
@@ -48,6 +38,31 @@ export const itemValidator = input => {
 
 export const itemsByRestaurantValidator = input => {
   const schema = Joi.object({ restaurantID: Joi.objectId() })
+
+  return schema.validate(input)
+}
+
+export const addPriceValidator = input => {
+  const schema = Joi.object({
+    itemID: Joi.objectId(),
+    price: Joi.object({
+      variant,
+      price
+    })
+  })
+
+  return schema.validate(input)
+}
+
+export const addOnValidator = input => {
+  const schema = Joi.object({
+    itemID: Joi.objectId(),
+    addOn: {
+      id: Joi.objectId(),
+      name,
+      price
+    }
+  })
 
   return schema.validate(input)
 }

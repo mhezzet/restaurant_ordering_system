@@ -103,7 +103,7 @@ async function deleteRestaurant(_, args, { models: { Restaurant } }) {
 | Add Owner
 |--------------------------------------------------
 */
-async function addOwner(_, args, { models: { User } }) {
+async function addOwner(_, args, { models: { User, Restaurant } }) {
   const { error } = addOwnerValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
@@ -117,17 +117,26 @@ async function addOwner(_, args, { models: { User } }) {
     restaurant: args.restaurantID
   })
 
-  await User.populate(user, 'restaurant')
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { _id: args.restaurantID },
+    {
+      $set: {
+        owner: user._id
+      }
+    },
+    {
+      new: true
+    }
+  ).populate('cashier owner')
 
-  const token = user.genToken()
-  return { user, token }
+  return restaurant
 }
 /**
 |--------------------------------------------------
 | Add Cahsier
 |--------------------------------------------------
 */
-async function addCashier(_, args, { models: { User } }) {
+async function addCashier(_, args, { models: { User, Restaurant } }) {
   const { error } = addCashierValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
@@ -141,10 +150,13 @@ async function addCashier(_, args, { models: { User } }) {
     restaurant: args.restaurantID
   })
 
-  await User.populate(user, 'restaurant')
-  const token = user.genToken()
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { _id: args.restaurantID },
+    { $set: { cashier: user._id } },
+    { new: true }
+  ).populate('cashier owner')
 
-  return { user, token }
+  return restaurant
 }
 
 export default {
