@@ -90,7 +90,11 @@ async function makeOrder(
     (totalPrice, item) =>
       totalPrice +
       item.price +
-      item.addOns.reduce((totalAddOn, addOne) => totalAddOn + addOne.price, 0),
+      item.addOnsSingle.price +
+      item.addOnsMulti.reduce(
+        (totalAddOn, addOne) => totalAddOn + addOne.price,
+        0
+      ),
     0
   )
 
@@ -149,10 +153,30 @@ const addedOrder = {
   )
 }
 
+/**
+|--------------------------------------------------
+| All Orders By Restaurant
+|--------------------------------------------------
+*/
+
+async function allOrdersByRestaurant(_, args, { models: { Order } }) {
+  const { error } = ordersByRestaurantValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const restaurants = await Order.find({
+    restaurant: args.restaurantID
+  })
+    .sort({ createdAt: -1 })
+    .populate('restaurant user inventory address')
+
+  return restaurants
+}
+
 export default {
   Query: {
     order,
-    ordersByRestaurant
+    ordersByRestaurant,
+    allOrdersByRestaurant
   },
   Mutation: {
     makeOrder,

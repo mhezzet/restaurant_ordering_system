@@ -4,7 +4,9 @@ import {
   updateRestaurantValidator,
   deleteRestaurantValidator,
   addOwnerValidator,
-  addCashierValidator
+  addCashierValidator,
+  addRedemptionItemValidator,
+  removeRedemptionItemValidator
 } from './validators'
 import { UserInputError } from 'apollo-server'
 
@@ -159,6 +161,54 @@ async function addCashier(_, args, { models: { User, Restaurant } }) {
   return restaurant
 }
 
+/**
+|--------------------------------------------------
+| Add Redemption Item
+|--------------------------------------------------
+*/
+
+async function addRedemptionItem(_, args, { models: { User, Restaurant } }) {
+  const { error } = addRedemptionItemValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { _id: args.restaurantID },
+    { $push: { redemptionItems: args.redemptionItem } },
+    { new: true }
+  ).populate('cashier owner')
+
+  if (!restaurant) throw new UserInputError('there is no such a restaurant')
+
+  return restaurant
+}
+
+/**
+|--------------------------------------------------
+| Remove Redemption Item
+|--------------------------------------------------
+*/
+
+async function removeRedemptionItem(_, args, { models: { User, Restaurant } }) {
+  const { error } = removeRedemptionItemValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const restaurant = await Restaurant.findOneAndUpdate(
+    { _id: args.restaurantID },
+    { $pull: { redemptionItems: { _id: args.redemptionItemID } } },
+    { new: true }
+  ).populate('cashier owner')
+
+  if (!restaurant) throw new UserInputError('there is no such a restaurant')
+
+  return restaurant
+}
+
+/**
+|--------------------------------------------------
+| Toggle Multi AddOn
+|--------------------------------------------------
+*/
+
 export default {
   Query: {
     restaurant,
@@ -169,6 +219,8 @@ export default {
     updateRestaurant,
     deleteRestaurant,
     addOwner,
-    addCashier
+    addCashier,
+    addRedemptionItem,
+    removeRedemptionItem
   }
 }

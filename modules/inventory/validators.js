@@ -9,8 +9,11 @@ export const createInventoryValidator = input => {
     items: Joi.array().items({
       name,
       price,
-      addOns: Joi.array().items({
-        id: Joi.objectId(),
+      addOnsMulti: Joi.array().items({
+        name,
+        price
+      }),
+      addOnsSingle: Joi.object({
         name,
         price
       })

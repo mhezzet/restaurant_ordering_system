@@ -67,13 +67,27 @@ async function addPrice(_, args, { models: { Item } }) {
   return item
 }
 
-async function addAddOn(_, args, { models: { Item } }) {
+async function addAddOnSingle(_, args, { models: { Item } }) {
   const { error } = addOnValidator(args)
   if (error) throw new UserInputError(error.details[0].message)
 
   const item = await Item.findOneAndUpdate(
     { _id: args.itemID },
-    { $push: { addOns: args.addOn } },
+    { $push: { singleAddOns: args.addOn } },
+    { new: true }
+  ).populate('restaurant')
+  if (!item) throw new UserInputError('no such an item')
+
+  return item
+}
+
+async function addAddOnMulti(_, args, { models: { Item } }) {
+  const { error } = addOnValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const item = await Item.findOneAndUpdate(
+    { _id: args.itemID },
+    { $push: { multiAddOns: args.addOn } },
     { new: true }
   ).populate('restaurant')
   if (!item) throw new UserInputError('no such an item')
@@ -86,7 +100,8 @@ export default {
     addItem,
     removeItem,
     addPrice,
-    addAddOn
+    addAddOnSingle,
+    addAddOnMulti
   },
   Query: {
     item,

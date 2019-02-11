@@ -10,7 +10,8 @@ export default gql`
     addItem(item: itemInput, restaurantID: ID!): Item @owner
     removeItem(itemID: ID!): Item @owner
     addPrice(itemID: ID!, price: priceInput): Item @owner
-    addAddOn(itemID: ID!, addOn: addOnsInput): Item @owner
+    addAddOnSingle(itemID: ID!, addOn: addOnsInput): Item @owner
+    addAddOnMulti(itemID: ID!, addOn: addOnsInput): Item @owner
   }
 
   input itemInput {
@@ -36,7 +37,8 @@ export default gql`
     name: String!
     prices: [Price!]!
     description: String
-    addOns: [addOn]!
+    singleAddOns: [addOn]
+    multiAddOns: [addOn]
     category: String!
     itemPic: String
     restaurant: Restaurant

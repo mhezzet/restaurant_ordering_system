@@ -22,7 +22,8 @@ const itemSchema = new Schema({
     type: Number,
     min: 0
   },
-  addOns: [addOnsSchema]
+  addOnsSingle: addOnsSchema,
+  addOnsMulti: [addOnsSchema]
 })
 
 const inventorySchema = new Schema({

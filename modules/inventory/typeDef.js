@@ -12,7 +12,8 @@ export default gql`
   input itemsCartInput {
     name: String!
     price: Float!
-    addOns: [addOnsInput]
+    addOnsSingle: addOnsInput
+    addOnsMulti: [addOnsInput]
   }
 
   type Inventory {
@@ -24,6 +25,7 @@ export default gql`
   type ItemCart {
     name: String!
     price: Float!
-    addOns: [addOn]
+    addOnsSingle: addOn
+    addOnsMulti: [addOn]
   }
 `

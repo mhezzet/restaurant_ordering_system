@@ -3,7 +3,8 @@ import { gql } from 'apollo-server'
 export default gql`
   extend type Query {
     order(orderID: ID): Order
-    ordersByRestaurant(restaurantID: ID): [Order!]! @owner
+    ordersByRestaurant(restaurantID: ID): [Order!]! @cashier
+    allOrdersByRestaurant(restaurantID: ID!): [Order!]! @owner
   }
 
   type Subscription {

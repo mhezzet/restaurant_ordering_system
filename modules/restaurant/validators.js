@@ -80,3 +80,23 @@ export const addCashierValidator = input => {
   })
   return schema.validate(input)
 }
+
+export const addRedemptionItemValidator = input => {
+  const schema = Joi.object({
+    restaurantID: Joi.objectId(),
+    redemptionItem: {
+      itemName,
+      costPoints
+    }
+  })
+  return schema.validate(input)
+}
+
+export const removeRedemptionItemValidator = input => {
+  const schema = Joi.object({
+    redemptionItemID: Joi.objectId(),
+    restaurantID: Joi.objectId()
+  })
+
+  return schema.validate(input)
+}

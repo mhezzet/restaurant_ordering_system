@@ -40,7 +40,8 @@ const itemSchema = new Schema({
     max: 300
   },
   prices: [pricesSchema],
-  addOns: [addOnsSchema],
+  singleAddOns: [addOnsSchema],
+  multiAddOns: [addOnsSchema],
   itemPic: {
     type: String,
     maxlength: 1024,

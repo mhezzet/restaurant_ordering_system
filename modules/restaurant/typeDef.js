@@ -23,15 +23,12 @@ export default gql`
       password: String!
       restaurantID: ID
     ): Restaurant @admin
-    addredemptionItem(
+    addRedemptionItem(
       restaurantID: ID!
       redemptionItem: redemptionItemInput!
     ): Restaurant @owner
-    removeRedemptionItem(
-      redemptionItemID: ID!
-      restaurantID: ID!
-      redemptionItem: redemptionItemInput
-    ): Restaurant @owner
+    removeRedemptionItem(redemptionItemID: ID!, restaurantID: ID!): Restaurant
+      @owner
   }
 
   input restaurantInput {
@@ -43,8 +40,8 @@ export default gql`
   }
 
   input redemptionItemInput {
-    itemName: String
-    costPoints: Int
+    itemName: String!
+    costPoints: Int!
   }
 
   type Restaurant {
