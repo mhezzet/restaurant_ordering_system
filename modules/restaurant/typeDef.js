@@ -2,7 +2,7 @@ import { gql } from 'apollo-server'
 
 export default gql`
   extend type Query {
-    restaurant(restaurantID: ID!): Restaurant @admin
+    restaurant(restaurantID: ID!): Restaurant
     restaurants: [Restaurant!]! @admin
   }
 
@@ -34,31 +34,31 @@ export default gql`
   input restaurantInput {
     title: String!
     messengerBotID: ID!
-    deleveryFees: Float
-    startTime: Int
-    endTime: Int
+    deleveryFees: Float!
+    startTime: String!
+    endTime: String!
   }
 
   input redemptionItemInput {
     itemName: String!
-    costPoints: Int!
+    costPoints: Int
   }
 
   type Restaurant {
     id: ID
-    title: String
+    title: String!
     cashier: User
     owner: User
-    messengerBotID: ID
+    messengerBotID: ID!
     redemptionItems: [redemptionItem]
-    deleveryFees: Float
-    startTime: Int
-    endTime: Int
+    deleveryFees: Float!
+    startTime: String!
+    endTime: String!
   }
 
   type redemptionItem {
     id: ID
-    itemName: String
+    itemName: String!
     costPoints: Int
   }
 `

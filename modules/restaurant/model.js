@@ -41,15 +41,13 @@ const restaurantSchema = new Schema(
       required: true
     },
     startTime: {
-      type: Number,
-      max: 1440,
-      min: 0,
+      type: String,
+      maxlength: 10,
       required: true
     },
     endTime: {
-      type: Number,
-      max: 1440,
-      min: 0,
+      type: String,
+      maxlength: 10,
       required: true
     }
   },
