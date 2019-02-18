@@ -1,7 +1,8 @@
 import {
   orderValidator,
   ordersByRestaurantValidator,
-  makeOrderValidator
+  makeOrderValidator,
+  lastOrdersByUserValidator
 } from './validators'
 import { UserInputError, AuthenticationError, withFilter } from 'apollo-server'
 
@@ -172,11 +173,38 @@ async function allOrdersByRestaurant(_, args, { models: { Order } }) {
   return restaurants
 }
 
+/**
+|--------------------------------------------------
+| Last Orders By User
+|--------------------------------------------------
+*/
+
+async function lastOrdersByUser(
+  _,
+  args,
+  { models: { Order, Inventory }, user: requestedUser }
+) {
+  const { error } = lastOrdersByUserValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  // if (args.userID != requestedUser.id)
+  //   throw new UserInputError('access denied, ur not allowed')
+
+  const orders = await Order.find({ user: args.userID }).populate({
+    path: 'restaurant user inventory address'
+  })
+
+  let inventories = orders.map(order => order.inventory)
+
+  return inventories
+}
+
 export default {
   Query: {
     order,
     ordersByRestaurant,
-    allOrdersByRestaurant
+    allOrdersByRestaurant,
+    lastOrdersByUser
   },
   Mutation: {
     makeOrder,

@@ -28,3 +28,11 @@ export const makeOrderValidator = input => {
   })
   return schema.validate(input)
 }
+
+export const lastOrdersByUserValidator = input => {
+  const schema = Joi.object({
+    userID: Joi.objectId().required()
+  })
+
+  return schema.validate(input)
+}

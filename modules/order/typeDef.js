@@ -5,6 +5,7 @@ export default gql`
     order(orderID: ID): Order
     ordersByRestaurant(restaurantID: ID): [Order!]! @cashier
     allOrdersByRestaurant(restaurantID: ID!): [Order!]! @owner
+    lastOrdersByUser(userID: ID!): [Inventory!]! @user
   }
 
   type Subscription {
