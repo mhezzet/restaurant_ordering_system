@@ -23,6 +23,7 @@ const password = Joi.string()
   .max(1024)
   .min(4)
   .required()
+const vat = Joi.boolean()
 
 const itemName = Joi.string().max(50)
 const costPoints = Joi.number().min(0)
@@ -38,7 +39,8 @@ export const addRestaurantValidator = input => {
     title,
     deleveryFees,
     startTime,
-    endTime
+    endTime,
+    vat
   })
   return schema.validate(input)
 }
@@ -51,7 +53,8 @@ export const updateRestaurantValidator = input => {
       title,
       deleveryFees,
       startTime,
-      endTime
+      endTime,
+      vat
     })
   })
 

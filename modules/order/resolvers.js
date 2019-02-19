@@ -87,7 +87,7 @@ async function makeOrder(
       'invalid redemtion item or not enough loyality points'
     )
 
-  const price = inventory.items.reduce(
+  let price = inventory.items.reduce(
     (totalPrice, item) =>
       totalPrice +
       item.price +
@@ -98,6 +98,10 @@ async function makeOrder(
       ),
     0
   )
+
+  if (restaurant.vat) {
+    price = price * 0.14 + price
+  }
 
   const totalPrice = price + restaurant.deleveryFees
 

@@ -49,6 +49,10 @@ const restaurantSchema = new Schema(
       type: String,
       maxlength: 10,
       required: true
+    },
+    vat: {
+      type: Boolean,
+      default: false
     }
   },
   {

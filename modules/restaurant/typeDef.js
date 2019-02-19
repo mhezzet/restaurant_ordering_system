@@ -37,6 +37,7 @@ export default gql`
     deleveryFees: Float!
     startTime: String!
     endTime: String!
+    vat: Boolean
   }
 
   input redemptionItemInput {
@@ -49,6 +50,7 @@ export default gql`
     title: String!
     cashier: User
     owner: User
+    vat: Boolean
     messengerBotID: ID!
     redemptionItems: [redemptionItem]
     deleveryFees: Float!
