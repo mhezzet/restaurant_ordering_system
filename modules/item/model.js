@@ -44,9 +44,7 @@ const itemSchema = new Schema({
   multiAddOns: [addOnsSchema],
   itemPic: {
     type: String,
-    maxlength: 1024,
-    default:
-      'https://amp.businessinsider.com/images/554cbc856da811b168b0a530-750-500.jpg'
+    maxlength: 1024
   },
   restaurant: {
     type: Schema.Types.ObjectId,

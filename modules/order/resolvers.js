@@ -38,7 +38,7 @@ async function ordersByRestaurant(_, args, { models: { Order } }) {
 
   const restaurants = await Order.find({
     restaurant: args.restaurantID,
-    state: { $ne: 'COMPLETED' }
+    state: 'NO_ACTION'
   })
     .sort({ createdAt: -1 })
     .populate('restaurant user inventory address')
@@ -169,7 +169,8 @@ async function allOrdersByRestaurant(_, args, { models: { Order } }) {
   if (error) throw new UserInputError(error.details[0].message)
 
   const restaurants = await Order.find({
-    restaurant: args.restaurantID
+    restaurant: args.restaurantID,
+    state: { $ne: 'NO_ACTION' }
   })
     .sort({ createdAt: -1 })
     .populate('restaurant user inventory address')
