@@ -10,6 +10,7 @@ import {
 } from './restaurant'
 import { User, userResolvers, userTypeDef } from './user'
 import { Address, addressResolvers, addressTypeDef } from './address'
+import { BotUsage, botUsageResolvers, botUsageTypeDef } from './botUsage'
 
 export const schema = makeExecutableSchema({
   typeDefs: [
@@ -18,7 +19,8 @@ export const schema = makeExecutableSchema({
     orderTypeDef,
     restaurantTypeDef,
     inventoryTypeDef,
-    addressTypeDef
+    addressTypeDef,
+    botUsageTypeDef
   ],
   resolvers: [
     itemResolvers,
@@ -26,7 +28,8 @@ export const schema = makeExecutableSchema({
     restaurantResolvers,
     addressResolvers,
     userResolvers,
-    inventoryResolvers
+    inventoryResolvers,
+    botUsageResolvers
   ],
   schemaDirectives
 })
@@ -37,5 +40,6 @@ export const models = {
   Item,
   Restaurant,
   Inventory,
-  Address
+  Address,
+  BotUsage
 }

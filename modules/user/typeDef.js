@@ -30,25 +30,26 @@ export default gql`
     lastName: String
     profilePic: String
     restaurant: ID
-    gender: Gender
+    gender: String
+    local: String
+    timeZone: String
+    source: String
   }
 
   type User {
     id: ID
     firstName: String
     lastName: String
-    gender: Gender
+    gender: String
     profilePic: String
     messengerUserID: ID
     roles: [Role!]!
     userName: String
     loyaltyPoints: Float
     restaurant: Restaurant
-  }
-
-  enum Gender {
-    MALE
-    FEMALE
+    local: String
+    timeZone: String
+    source: String
   }
 
   enum Role {

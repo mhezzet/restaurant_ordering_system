@@ -23,8 +23,7 @@ const userSchema = new Schema(
       maxlength: 1024
     },
     gender: {
-      type: String,
-      enum: ['MALE', 'FEMALE']
+      type: String
     },
     messengerUserID: {
       type: String,
@@ -61,6 +60,18 @@ const userSchema = new Schema(
       type: Number,
       min: 0,
       default: 200
+    },
+    local: {
+      type: String,
+      maxlength: 50
+    },
+    timeZone: {
+      type: String,
+      maxlength: 50
+    },
+    source: {
+      type: String,
+      maxlength: 50
     }
   },
   {
