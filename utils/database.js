@@ -7,10 +7,11 @@ import logger from './logger'
 export default function() {
   Joi.objectId = joiBind(Joi)
   mongoose
-    .connect(
-      config.get('DB_URI'),
-      { useCreateIndex: true, useFindAndModify: false }
-    )
+    .connect(config.get('DB_URI'), {
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useNewUrlParser: true
+    })
     .then(() => {
       logger.info(`🎉 connected to ${config.get('env')} db`)
     })
