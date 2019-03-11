@@ -38,6 +38,8 @@ export default gql`
     startTime: String!
     endTime: String!
     vat: Boolean
+    restaurantLogo: String
+    priority: Int
   }
 
   input redemptionItemInput {
@@ -56,6 +58,8 @@ export default gql`
     deleveryFees: Float!
     startTime: String!
     endTime: String!
+    restaurantLogo: String
+    priority: Int
   }
 
   type redemptionItem {

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { model, Schema } from 'mongoose'
 
 const redemptionItemSchema = new Schema({
   itemName: {
@@ -53,6 +53,15 @@ const restaurantSchema = new Schema(
     vat: {
       type: Boolean,
       default: false
+    },
+    restaurantLogo: {
+      type: String,
+      maxlength: 200
+    },
+    priority: {
+      type: Number,
+      min: 0,
+      max: 10
     }
   },
   {

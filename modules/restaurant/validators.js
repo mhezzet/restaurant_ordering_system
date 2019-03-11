@@ -24,6 +24,10 @@ const password = Joi.string()
   .min(4)
   .required()
 const vat = Joi.boolean()
+const restaurantLogo = Joi.string().max(200)
+const priority = Joi.number()
+  .min(0)
+  .max(10)
 
 const itemName = Joi.string().max(50)
 const costPoints = Joi.number().min(0)
@@ -40,7 +44,9 @@ export const addRestaurantValidator = input => {
     deleveryFees,
     startTime,
     endTime,
-    vat
+    vat,
+    restaurantLogo,
+    priority
   })
   return schema.validate(input)
 }
@@ -54,7 +60,9 @@ export const updateRestaurantValidator = input => {
       deleveryFees,
       startTime,
       endTime,
-      vat
+      vat,
+      restaurantLogo,
+      priority
     })
   })
 
