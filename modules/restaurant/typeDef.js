@@ -4,6 +4,13 @@ export default gql`
   extend type Query {
     restaurant(restaurantID: ID!): Restaurant
     restaurants: [Restaurant!]! @admin
+    restaurantsLogo: [restaurantsLogoResolvers!]!
+  }
+
+  type restaurantsLogoResolvers {
+    title: String!
+    restaurantLogo: String
+    priority: Int
   }
 
   extend type Mutation {

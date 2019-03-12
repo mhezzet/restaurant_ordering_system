@@ -1,14 +1,14 @@
-import {
-  restaurantValidator,
-  addRestaurantValidator,
-  updateRestaurantValidator,
-  deleteRestaurantValidator,
-  addOwnerValidator,
-  addCashierValidator,
-  addRedemptionItemValidator,
-  removeRedemptionItemValidator
-} from './validators'
 import { UserInputError } from 'apollo-server'
+import {
+  addCashierValidator,
+  addOwnerValidator,
+  addRedemptionItemValidator,
+  addRestaurantValidator,
+  deleteRestaurantValidator,
+  removeRedemptionItemValidator,
+  restaurantValidator,
+  updateRestaurantValidator
+} from './validators'
 
 /**
 |--------------------------------------------------
@@ -205,14 +205,20 @@ async function removeRedemptionItem(_, args, { models: { User, Restaurant } }) {
 
 /**
 |--------------------------------------------------
-| Toggle Multi AddOn
+| Restaurants Logo
 |--------------------------------------------------
 */
+
+async function restaurantsLogo(_, args, { models: { Restaurant } }) {
+  const restaurants = await Restaurant.find()
+  return restaurants
+}
 
 export default {
   Query: {
     restaurant,
-    restaurants
+    restaurants,
+    restaurantsLogo
   },
   Mutation: {
     addRestaurant,
