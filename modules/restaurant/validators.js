@@ -29,6 +29,7 @@ const priority = Joi.number()
   .min(0)
   .max(10)
 
+const slug = Joi.string().required()
 const itemName = Joi.string().max(50)
 const costPoints = Joi.number().min(0)
 
@@ -107,6 +108,14 @@ export const removeRedemptionItemValidator = input => {
   const schema = Joi.object({
     redemptionItemID: Joi.objectId(),
     restaurantID: Joi.objectId()
+  })
+
+  return schema.validate(input)
+}
+
+export const restaurantBySlugValidator = input => {
+  const schema = Joi.object({
+    slug
   })
 
   return schema.validate(input)

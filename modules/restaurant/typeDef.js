@@ -5,6 +5,7 @@ export default gql`
     restaurant(restaurantID: ID!): Restaurant
     restaurants: [Restaurant!]! @admin
     restaurantsLogo: [restaurantsLogoResolvers!]!
+    restaurantBySlug(slug: String!): Restaurant
   }
 
   type restaurantsLogoResolvers {
@@ -57,6 +58,7 @@ export default gql`
   type Restaurant {
     id: ID
     title: String!
+    slug: String
     cashier: User
     owner: User
     vat: Boolean

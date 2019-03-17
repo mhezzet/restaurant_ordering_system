@@ -18,7 +18,12 @@ const restaurantSchema = new Schema(
       trim: true,
       required: true,
       maxlength: 50,
-      minlength: 3
+      minlength: 3,
+      unique: true
+    },
+    slug: {
+      type: String,
+      required: true
     },
     owner: {
       type: Schema.Types.ObjectId,

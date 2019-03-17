@@ -7,8 +7,11 @@ import {
   deleteRestaurantValidator,
   removeRedemptionItemValidator,
   restaurantValidator,
-  updateRestaurantValidator
+  updateRestaurantValidator,
+  restaurantBySlugValidator
 } from './validators'
+
+import slugify from 'slugify'
 
 /**
 |--------------------------------------------------
@@ -52,9 +55,17 @@ async function addRestaurant(_, args, { models: { Restaurant } }) {
     messengerBotID: args.restaurant.messengerBotID
   })
   if (restaurant)
-    throw new UserInputError('restaurant messenger Bot ID is already exist')
+    throw new UserInputError('restaurant messenger Bot ID is already exist ')
 
-  restaurant = await Restaurant.create(args.restaurant)
+  restaurant = await Restaurant.findOne({
+    title: args.restaurant.title
+  })
+  if (restaurant) throw new UserInputError('restaurant title is already exist ')
+
+  restaurant = await Restaurant.create({
+    ...args.restaurant,
+    slug: slugify(args.restaurant.title, { lower: true })
+  })
   return restaurant
 }
 
@@ -210,15 +221,32 @@ async function removeRedemptionItem(_, args, { models: { User, Restaurant } }) {
 */
 
 async function restaurantsLogo(_, args, { models: { Restaurant } }) {
-  const restaurants = await Restaurant.find()
+  const restaurants = await Restaurant.find().sort('-priority')
   return restaurants
+}
+
+/**
+|--------------------------------------------------
+| restaurantBySlug
+|--------------------------------------------------
+*/
+
+async function restaurantBySlug(_, args, { models: { Restaurant } }) {
+  const { error } = restaurantBySlugValidator(args)
+  if (error) throw new UserInputError(error.details[0].message)
+
+  const restaurant = await Restaurant.findOne({ slug: args.slug })
+  if (!restaurant) throw new UserInputError('no such a restaurant')
+
+  return restaurant
 }
 
 export default {
   Query: {
     restaurant,
     restaurants,
-    restaurantsLogo
+    restaurantsLogo,
+    restaurantBySlug
   },
   Mutation: {
     addRestaurant,
